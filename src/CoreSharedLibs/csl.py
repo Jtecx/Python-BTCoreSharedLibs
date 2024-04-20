@@ -106,3 +106,31 @@ def get_filename_from_path(file_path):
     else:
         # If no match found, return None
         return None
+
+
+def pos_int_input():
+    verify = True
+    char_val = 0
+    while verify:
+        try:
+            char_val = int(input("Please input an integer. : "))
+            if char_val < 0:
+                raise ValueError("Negative integers are not allowed.")
+            else:
+                char_verify = input(f"{char_val} entered! Correct? Y/N: ").lower()[
+                              :1
+                              ]
+                while True:
+                    if char_verify in ["y", "n"]:
+                        if char_verify == "y":
+                            print("Understood. Moving on.")
+                            verify = False
+                        else:
+                            print("Understood. Trying again.")
+                            verify = True
+                        break
+                    else:
+                        print("Invalid input. Please enter Y or N.")
+        except ValueError:
+            logging.warning("Invalid entry. Integers only,")
+    return char_val
