@@ -31,7 +31,7 @@ def listdir_int_match(source, target):
     if isinstance(source, list):
         source2 = [entry.name for entry in source]
     elif isinstance(source, Path):
-        source2 = [entry.name for entry in source.iterdir()]
+        source2 = [entry.name for entry in source.glob("*")]
 
     try:
         result = [j for j in source2 if str(char_entry_value_strip(str(target))) in j][
@@ -93,29 +93,24 @@ def process_list_queue(file_list, func_proc):
         logging.error(f"An error occurred: {f}")
 
 
-def get_filename_from_path(file_path):
-    # Define the regex pattern to match a filename
-    pattern = r"[\\/]([^\\/]+)$"
-
-    # Use re.search to find the last segment which is the filename
-    match = re.search(pattern, file_path)
-
-    if match:
-        # Return the matched filename
-        return match.group(1)
-    else:
-        # If no match found, return None
-        return None
-
-
-def pos_int_input():
+def validate_int_input(min_val=0, max_val=-1):
+    """
+    Generic input validation. Holds user captive until either valid (positive) integer input is taken,
+    or termination requested.
+    Also double checks if the value entered is what the user intended.
+    :param min_val: Minimum valid value. Default 0.
+    :param max_val: Maximum valid value. Default to -1 as infinite substitute.
+    :return: Int.
+    """
     verify = True
     char_val = 0
     while verify:
         try:
             char_val = int(input("Please input an integer. : "))
-            if char_val < 0:
-                raise ValueError("Negative integers are not allowed.")
+            if char_val < min_val:
+                raise ValueError("Integer exceeds minimum allowed.")
+            elif max_val != -1 and char_val > max_val:
+                raise ValueError("Integer exceeds maximum allowed.")
             else:
                 char_verify = input(f"{char_val} entered! Correct? Y/N: ").lower()[
                               :1
