@@ -112,9 +112,7 @@ def validate_int_input(min_val=0, max_val=-1):
             elif max_val != -1 and char_val > max_val:
                 raise ValueError("Integer exceeds maximum allowed.")
             else:
-                char_verify = input(f"{char_val} entered! Correct? Y/N: ").lower()[
-                              :1
-                              ]
+                char_verify = input(f"{char_val} entered! Correct? Y/N: ").lower()[:1]
                 while True:
                     if char_verify in ["y", "n"]:
                         if char_verify == "y":
